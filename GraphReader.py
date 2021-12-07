@@ -50,13 +50,13 @@ class KruskalGraph():
                         a = i
                         b = j
             self.union(a, b)
-            print('Edge {}:({}, {}) cost:{}'.format(edge_count, a, b, min))
+            #print('Edge {}:({}, {}) cost:{}'.format(edge_count, a, b, min))
             MST.add_edge(a, b, weight = min/10000000)
             edge_count += 1
             mincost += min/10000000
 
         self.TotalWeight = mincost
-        print("Minimum cost= {}".format(mincost))
+        #print("Minimum cost= {}".format(mincost))
 
         MSTpos=nx.get_node_attributes(MST,'pos')
         nx.draw(MST, MSTpos, with_labels=True, connectionstyle="arc3,rad=0.1")
@@ -80,9 +80,9 @@ class PrimGraph():
         return self.TotalWeight
  
     def printMST(self, parent):
-        print("Edge \tWeight")
-        for i in range(1, self.V):
-            print(parent[i], "-", i, "\t", self.graph[i][ parent[i] ]/10000000)
+        #print("Edge \tWeight")
+        # for i in range(1, self.V):
+        #     print(parent[i], "-", i, "\t", self.graph[i][ parent[i] ]/10000000)
 
         temp_pos = nx.get_node_attributes(G, 'pos')
         MST = nx.Graph()
@@ -275,7 +275,8 @@ def PrimAlgo():
     primG = PrimGraph(verts, starting)
     primG.graph = graphMat
     primG.primMST()
-    print(primG.getTotalWeight())
+
+    return primG.getTotalWeight()
 
 def KruskalAlgo():
     kruskalG = KruskalGraph(verts, starting)
@@ -288,6 +289,8 @@ def KruskalAlgo():
 
     kruskalG.graph = cost_Mat
     kruskalG.kruskalMST()
+
+    return kruskalG.getTotalWeight()
 
 def DijkstraAlgo():
     pass
