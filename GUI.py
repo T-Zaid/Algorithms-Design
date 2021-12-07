@@ -31,36 +31,36 @@ def openNewWindow():
 
     # This is the section of code which creates a button
     Button(newWindow, text='Prim\'s', bg='#FFA07A', font=('arial', 12, 'normal'),
-        command=PrimAlgo).place(x=83-5, y=118)
+        command=GraphReader.PrimAlgo).place(x=83-5, y=118)
 
     # This is the section of code which creates a button
     Button(newWindow, text='Kruskal', bg='#FFA07A', font=('arial', 12, 'normal'),
-        command=KruskalAlgo).place(x=193-5, y=118)
+        command=GraphReader.KruskalAlgo).place(x=193-5, y=118)
 
 
     # This is the section of code which creates a button
     Button(newWindow, text='Dijkstra', bg='#FFA07A', font=('arial', 12, 'normal'),
-        command=DijkstraAlgo).place(x=303-5, y=118)
+        command=GraphReader.DijkstraAlgo).place(x=303-5, y=118)
 
 
     # This is the section of code which creates a button
     Button(newWindow, text='Bellman Ford', bg='#FFA07A', font=('arial', 12, 'normal'),
-        command=BellmanFordAlgo).place(x=83-5, y=178)
+        command=GraphReader.BellmanFordAlgo).place(x=83-5, y=178)
 
 
     # This is the section of code which creates a button
     Button(newWindow, text='Floyd Warshall', bg='#FFA07A', font=('arial', 12, 'normal'),
-        command=FloydWarshallAlgo).place(x=255-5, y=178)
+        command=GraphReader.FloydWarshallAlgo).place(x=255-5, y=178)
 
 
     # This is the section of code which creates a button
     Button(newWindow, text='Clustering Coefficient', bg='#FFA07A', font=('arial', 12, 'normal'),
-        command=ClusteringCoefficientAlgo).place(x=83-5, y=238)
+        command=GraphReader.ClusteringCoefficientAlgo).place(x=83-5, y=238)
 
 
     # This is the section of code which creates a button
     Button(newWindow, text='Boruvka', bg='#FFA07A', font=('arial', 12, 'normal'),
-        command=BoruvkaAlgo).place(x=303-5, y=238)
+        command=GraphReader.BoruvkaAlgo).place(x=303-5, y=238)
 
 
 # All Algorithm Functions

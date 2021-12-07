@@ -3,6 +3,71 @@ import matplotlib.pyplot as plt
 from PIL import Image
 import sys
 
+class KruskalGraph():
+    def __init__(self, Vertices, Starting_Vert):
+        self.V = Vertices
+        self.S = Starting_Vert
+        self.TotalWeight = 0
+        self.INF = float('inf')
+        self.graph = [[self.INF for i in range(self.V)] for j in range(self.V)]
+        self.parent = [i for i in range(self.V)]
+
+    def getTotalWeight(self):
+        return self.TotalWeight
+
+    def find(self, i):
+        while self.parent[i] != i:
+            i = self.parent[i]
+        return i
+
+    def union(self, i, j):
+        a = self.find(i)
+        b = self.find(j)
+        self.parent[a] = b
+
+    def kruskalMST(self):
+        mincost = 0 # Cost of min MST
+ 
+        # Initialize sets of disjoint sets
+        for i in range(self.V):
+            self.parent[i] = i
+
+        temp_pos = nx.get_node_attributes(G, 'pos')
+        MST = nx.Graph()
+        for i in range(self.V):
+            MST.add_node(i, pos = temp_pos[i])
+    
+        # Include minimum weight edges one by one
+        edge_count = 0
+        while edge_count < self.V - 1:
+            min = self.INF
+            a = -1
+            b = -1
+            for i in range(self.V):
+                for j in range(self.V):
+                    if self.find(i) != self.find(j) and self.graph[i][j] < min:
+                        min = self.graph[i][j]
+                        a = i
+                        b = j
+            self.union(a, b)
+            print('Edge {}:({}, {}) cost:{}'.format(edge_count, a, b, min))
+            MST.add_edge(a, b, weight = min/10000000)
+            edge_count += 1
+            mincost += min/10000000
+
+        self.TotalWeight = mincost
+        print("Minimum cost= {}".format(mincost))
+
+        MSTpos=nx.get_node_attributes(MST,'pos')
+        nx.draw(MST, MSTpos, with_labels=True, connectionstyle="arc3,rad=0.1")
+        plt.title("MST Total Weight: " + str(self.TotalWeight))
+        plt.savefig("KruskalMST.png")
+        labels = nx.get_edge_attributes(MST,'weight')
+        nx.draw_networkx_edge_labels(MST,temp_pos,edge_labels=labels)
+        plt.savefig("KruskalMST_with_Weights.png")
+        plt.close()
+    
+
 class PrimGraph():
  
     def __init__(self, Vertices, Starting_Vert):
@@ -15,9 +80,9 @@ class PrimGraph():
         return self.TotalWeight
  
     def printMST(self, parent):
-        # print("Edge \tWeight")
-        # for i in range(1, self.V):
-        #     print(parent[i], "-", i, "\t", self.graph[i][ parent[i] ])
+        print("Edge \tWeight")
+        for i in range(1, self.V):
+            print(parent[i], "-", i, "\t", self.graph[i][ parent[i] ]/10000000)
 
         temp_pos = nx.get_node_attributes(G, 'pos')
         MST = nx.Graph()
@@ -210,9 +275,19 @@ def PrimAlgo():
     primG = PrimGraph(verts, starting)
     primG.graph = graphMat
     primG.primMST()
+    print(primG.getTotalWeight())
 
 def KruskalAlgo():
-    pass
+    kruskalG = KruskalGraph(verts, starting)
+    cost_Mat = [[float('inf') for x in range(verts)] for y in range(verts)]
+    
+    for i in range(verts):
+        for j in range(verts):
+            if graphMat[i][j] != 0:
+                cost_Mat[i][j] = graphMat[i][j]
+
+    kruskalG.graph = cost_Mat
+    kruskalG.kruskalMST()
 
 def DijkstraAlgo():
     pass
