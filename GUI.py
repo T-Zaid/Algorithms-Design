@@ -4,8 +4,12 @@ from tkinter import ttk
 from tkinter import *
 import GraphReader
 
+
 def openGraphs():
     pass
+
+def on_closing():
+    root.destroy()
 
 def openNewWindow():
     root.withdraw() 
@@ -13,6 +17,7 @@ def openNewWindow():
     # be treated as a new window
     global newWindow
     newWindow = Toplevel(root)
+    newWindow.protocol("WM_DELETE_WINDOW", on_closing)
  
     # sets the title of the
     # Toplevel widget
@@ -70,9 +75,6 @@ def openNewWindow():
 #     primG.primMST()
 #     openGraphs()
 
-def KruskalAlgo():
-    pass
-
 def DijkstraAlgo():
     pass
 
@@ -80,9 +82,6 @@ def BellmanFordAlgo():
     pass
 
 def FloydWarshallAlgo():
-    pass
-
-def ClusteringCoefficientAlgo():
     pass
 
 def BoruvkaAlgo():

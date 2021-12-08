@@ -3,6 +3,8 @@ import matplotlib.pyplot as plt
 from PIL import Image
 import sys
 
+from networkx.algorithms.cluster import average_clustering
+
 class KruskalGraph():
     def __init__(self, Vertices, Starting_Vert):
         self.V = Vertices
@@ -59,8 +61,17 @@ class KruskalGraph():
         #print("Minimum cost= {}".format(mincost))
 
         MSTpos=nx.get_node_attributes(MST,'pos')
+
+        min_x = min_y = float('inf')
+        for i in range(MST.number_of_nodes()):
+            x, y = MSTpos[i]
+            if x < min_x:
+                min_x = x
+            if y < min_y:
+                min_y = y
+
         nx.draw(MST, MSTpos, with_labels=True, connectionstyle="arc3,rad=0.1")
-        plt.title("MST Total Weight: " + str(self.TotalWeight))
+        plt.text(min_x, min_y-0.012, 'MST = ' + str(round(self.TotalWeight, 2)), fontsize = 22, horizontalalignment= "left", verticalalignment = "top")
         plt.savefig("KruskalMST.png")
         labels = nx.get_edge_attributes(MST,'weight')
         nx.draw_networkx_edge_labels(MST,temp_pos,edge_labels=labels)
@@ -94,8 +105,17 @@ class PrimGraph():
             self.TotalWeight += self.graph[i][parent[i]]/10000000
 
         MSTpos=nx.get_node_attributes(MST,'pos')
+
+        min_x = min_y = float('inf')
+        for i in range(MST.number_of_nodes()):
+            x,y = MSTpos[i]
+            if x < min_x:
+                min_x = x
+            if y < min_y:
+                min_y = y
+
         nx.draw(MST, MSTpos, with_labels=True, connectionstyle="arc3,rad=0.1")
-        plt.title("MST Total Weight: " + str(self.TotalWeight))
+        plt.text(min_x, min_y-0.012, 'MST = ' + str(round(self.TotalWeight, 2)), fontsize = 22, horizontalalignment= "left", verticalalignment = "top")
         plt.savefig("PrimMST.png")
         labels = nx.get_edge_attributes(MST,'weight')
         nx.draw_networkx_edge_labels(MST,temp_pos,edge_labels=labels)
@@ -302,7 +322,57 @@ def FloydWarshallAlgo():
     pass
 
 def ClusteringCoefficientAlgo():
-    pass
+    local_cluster = {}
+    for node in G:
+
+        adjacentNodes = []
+        indirectly_connected_nodes = []
+
+        for n in G.neighbors(node):
+            adjacentNodes.append(n)
+
+        for n in G.neighbors(node):
+            for n2 in G.neighbors(n):
+                if n2 in adjacentNodes:
+                    indirectly_connected_nodes.append(n2)
+
+        indirectly_connected_nodes = list(indirectly_connected_nodes)
+
+        cluster = 0
+        if len(indirectly_connected_nodes):
+            cluster =  (float(len(indirectly_connected_nodes)))/((float(len(list(G.neighbors(node)))) * (float(len(list(G.neighbors(node)))) - 1)))
+
+        local_cluster[node] = cluster
+
+    # print("Node:\tCoefficient:")
+    avg_coefficient = 0
+    for i in range(len(local_cluster)):
+        # print(str(i) + "\t" + str(local_cluster[i]))
+        avg_coefficient += local_cluster[i]
+    avg_coefficient /= len(local_cluster)
+    # print(avg_coefficient)
+
+    pos=nx.get_node_attributes(G,'pos')
+    nx.draw(G, pos, with_labels=True, connectionstyle="arc3,rad=0.1")
+    min_x = float('inf')
+    min_y = float('inf')
+
+    for i in range(len(local_cluster)):
+        x,y = pos[i]
+
+        if x < min_x:
+            min_x = x
+        if y < min_y:
+            min_y = y
+
+        plt.text(x,y+0.03,s=str(round(local_cluster[i], 2)), bbox=dict(facecolor='red'),horizontalalignment='center')
+    
+    plt.text(min_x, min_y-0.009, 'Average Coefficient = ' + str(round(avg_coefficient, 3)), fontsize = 22, horizontalalignment= "left", verticalalignment = "top")
+    plt.savefig("ClusteringCoefficient.png")
+    #plt.show()
+    plt.close()
+
+    return local_cluster, avg_coefficient
 
 def BoruvkaAlgo():
     pass
