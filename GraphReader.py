@@ -430,7 +430,7 @@ def ClusteringCoefficientAlgo():
     #plt.show()
     plt.close()
 
-    return local_cluster, avg_coefficient
+    return local_cluster
 
 def BoruvkaAlgo():
     pass
