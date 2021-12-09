@@ -5,6 +5,25 @@ import sys
 
 from networkx.algorithms.cluster import average_clustering
 
+class FloydWarshall():
+    def __init__(self, Vertices, graph):
+        self.V = Vertices
+        self.INF = float('inf')
+        self.distance = list(map(lambda i: list(map(lambda j: j, i)), graph))
+
+    def algo(self):
+        for k in range(self.V):  
+            for i in range(self.V):
+                for j in range(self.V):
+                    self.distance[i][j] = min(self.distance[i][j], self.distance[i][k] + self.distance[k][j])
+
+        return self.distance
+
+    def MakeGraph(self, png_name):
+        plt.imshow(self.distance, interpolation='nearest')
+        plt.savefig(png_name)
+        plt.close() 
+
 class KruskalGraph():
     def __init__(self, Vertices, Starting_Vert):
         self.V = Vertices
@@ -160,12 +179,14 @@ def DiGraphFileReader(file):
     #print("Number of vertices: " + str(vertices))
 
     graphMatrix = [[0 for x in range(vertices)] for y in range(vertices)]
+    graphMatrix2 = [[0 for x in range(vertices)] for y in range(vertices)]
 
     #print("Vertex\tx\t\ty")
     next(file)
     for i in range(vertices):
         xy_pos = [float(x) for x in file.readline().split()]
         #print(str(int(xy_pos[0])) + "\t" + str(xy_pos[1]) + "\t" + str(xy_pos[2]))
+        G.add_node(int(xy_pos[0]), pos=(xy_pos[1], xy_pos[2]))
         DG.add_node(int(xy_pos[0]), pos=(xy_pos[1], xy_pos[2])) # reading nodes and their xy positions into the graph
     next(file)
 
@@ -181,7 +202,7 @@ def DiGraphFileReader(file):
             if int(numbers_float[0]) == int(numbers_float[j]):
                 continue
             
-            #print(str(int(numbers_float[0])) + "->" + str(int(numbers_float[j])) + "\t\t" + str(numbers_float[j+2]/10000000))
+            graphMatrix2[int(numbers_float[0])][int(numbers_float[j])] = numbers_float[j+2]
             graphMatrix[int(numbers_float[0])][int(numbers_float[j])] = numbers_float[j+2]
             DG.add_edge(int(numbers_float[0]), int(numbers_float[j]), weight = numbers_float[j+2]/10000000)
 
@@ -189,12 +210,30 @@ def DiGraphFileReader(file):
         for j in range(vertices):
             if graphMatrix[i][j] != 0 and graphMatrix[j][i] == 0:
                 graphMatrix[j][i] = graphMatrix[i][j]
+
+    for i in range(vertices):
+        for j in range(vertices):
+            if graphMatrix2[i][j] != 0 and graphMatrix2[j][i] != 0:
+                graphMatrix2[i][j] = min(graphMatrix2[i][j], graphMatrix2[j][i])
+                graphMatrix2[j][i] = graphMatrix2[i][j]
+
+            if graphMatrix2[i][j] != 0 and graphMatrix2[j][i] == 0:
+                graphMatrix2[j][i] = graphMatrix2[i][j]
+
+    for i in range(vertices):
+        for j in range(i):
+            if graphMatrix2[i][j] != 0:
+                G.add_edge(i, j, weight = graphMatrix2[i][j]/10000000)
+
+    for i in range(vertices):
+        for j in range(vertices):
+            if graphMatrix[i][j] != 0:
                 DG.add_edge(j, i, weight = graphMatrix[i][j]/10000000)
 
     start = int(file.readline())
     #print("\nStart from: " + str(start))
 
-    return vertices, start, graphMatrix
+    return vertices, start, graphMatrix, graphMatrix2
 
 def GraphFileReader(file):
     next(file)
@@ -230,19 +269,19 @@ def GraphFileReader(file):
             graphMatrix[int(numbers_float[0])][int(numbers_float[j])] = numbers_float[j+2]
             # G.add_edge(int(numbers_float[0]), int(numbers_float[j]), weight = numbers_float[j+2]/10000000)
 
-        for i in range(vertices):
-            for j in range(vertices):
-                if graphMatrix[i][j] != 0 and graphMatrix[j][i] != 0:
-                    graphMatrix[i][j] = min(graphMatrix[i][j], graphMatrix[j][i])
-                    graphMatrix[j][i] = graphMatrix[i][j]
+    for i in range(vertices):
+        for j in range(vertices):
+            if graphMatrix[i][j] != 0 and graphMatrix[j][i] != 0:
+                graphMatrix[i][j] = min(graphMatrix[i][j], graphMatrix[j][i])
+                graphMatrix[j][i] = graphMatrix[i][j]
 
-                if graphMatrix[i][j] != 0 and graphMatrix[j][i] == 0:
-                    graphMatrix[j][i] = graphMatrix[i][j]
+            if graphMatrix[i][j] != 0 and graphMatrix[j][i] == 0:
+                graphMatrix[j][i] = graphMatrix[i][j]
 
-        for i in range(vertices):
-            for j in range(i):
-                if graphMatrix[i][j] != 0:
-                    G.add_edge(i, j, weight = graphMatrix[i][j]/10000000)
+    for i in range(vertices):
+        for j in range(i):
+            if graphMatrix[i][j] != 0:
+                G.add_edge(i, j, weight = graphMatrix[i][j]/10000000)
 
     start = int(file.readline())
     #print("\nStart from: " + str(start))
@@ -255,12 +294,16 @@ def readInputFile(filename):
     f = open(filename, "r")
     
     # for algorithms other than prims/kruskal/clustering
-    global DG
+    global DG, G
     DG = nx.DiGraph()
+    G = nx.Graph()
     global di_verts
+    global verts
     global di_starting
+    global starting
     global digraphMat
-    di_verts, di_starting, digraphMat = DiGraphFileReader(f)
+    global graphMat
+    di_verts, di_starting, digraphMat, graphMat = DiGraphFileReader(f)
     pos=nx.get_node_attributes(DG,'pos')
     nx.draw(DG, pos, with_labels=True, connectionstyle="arc3,rad=0.1")
     plt.savefig("DiGraph.png")
@@ -271,20 +314,22 @@ def readInputFile(filename):
     plt.close()
 
     # for prims/kruskal/clustering
-    f = open(filename, "r")
-    global G
-    G = nx.Graph()
-    global verts
-    global starting
-    global graphMat
-    verts, starting, graphMat = GraphFileReader(f)
+    # f = open(filename, "r")
+    # global G
+    # G = nx.Graph()
+    # global verts
+    # global starting
+    # global graphMat
+    # verts, starting, graphMat = GraphFileReader(f)
+    verts = di_verts
+    starting = di_starting
     pos=nx.get_node_attributes(G,'pos')
     nx.draw(G, pos, with_labels=True, connectionstyle="arc3,rad=0.1")
     plt.savefig("Graph.png")
     labels = nx.get_edge_attributes(G,'weight')
     nx.draw_networkx_edge_labels(G,pos,edge_labels=labels)
     plt.savefig("Graph_with_Weights.png")
-    f.close()
+    # f.close()
     plt.close()
 
     # primG = Graph(verts, starting)
@@ -319,7 +364,20 @@ def BellmanFordAlgo():
     pass
 
 def FloydWarshallAlgo():
-    pass
+    cost_Mat = [[float('inf') for x in range(verts)] for y in range(verts)]
+    
+    for i in range(verts):
+        for j in range(verts):
+            if digraphMat[i][j] != 0:
+                cost_Mat[i][j] = digraphMat[i][j]/10000000
+
+    floydW = FloydWarshall(verts, cost_Mat)
+
+    floydW.MakeGraph("FloydWarshall_Before")
+    resultantMatrix = floydW.algo()
+    floydW.MakeGraph("FloydWarshall_After")
+
+    return resultantMatrix
 
 def ClusteringCoefficientAlgo():
     local_cluster = {}

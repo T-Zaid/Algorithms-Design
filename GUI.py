@@ -95,79 +95,69 @@ def SecondWindowBackClickFunction():
 
 def TenNodeClickFunction():
     input_file = "input10.txt"
-    GraphReader.readInputFile(input_file)
-    print('clicked')
+    GraphReader.readInputFile(input_file) 
     openNewWindow()
 
 # this is the function called when the button is clicked
 def TwentyNodeClickFunction():
     input_file = "input20.txt"
-    GraphReader.readInputFile(input_file)
-    print('clicked')
+    GraphReader.readInputFile(input_file) 
     openNewWindow()
 
 
 # this is the function called when the button is clicked
 def ThirtyNodeClickFunction():
     input_file = "input30.txt"
-    GraphReader.readInputFile(input_file)
-    print('clicked')
+    GraphReader.readInputFile(input_file) 
     openNewWindow()
 
 
 # this is the function called when the button is clicked
 def FortyNodeClickFunction():
     input_file = "input40.txt"
-    GraphReader.readInputFile(input_file)
-    print('clicked')
+    GraphReader.readInputFile(input_file) 
     openNewWindow()
 
 
 # this is the function called when the button is clicked
 def FiftyNodeClickFunction():
     input_file = "input50.txt"
-    GraphReader.readInputFile(input_file)
-    print('clicked')
+    GraphReader.readInputFile(input_file) 
     openNewWindow()
 
 
 # this is the function called when the button is clicked
 def SixtyNodeClickFunction():
     input_file = "input60.txt"
-    GraphReader.readInputFile(input_file)
-    print('clicked')
+    GraphReader.readInputFile(input_file) 
     openNewWindow()
 
 
 # this is the function called when the button is clicked
 def SeventyNodeClickFunction():
     input_file = "input70.txt"
-    GraphReader.readInputFile(input_file)
-    print('clicked')
+    GraphReader.readInputFile(input_file) 
     openNewWindow()
 
 
 # this is the function called when the button is clicked
 def EightyNodeClickFunction():
     input_file = "input80.txt"
-    GraphReader.readInputFile(input_file)
-    print('clicked')
+    GraphReader.readInputFile(input_file) 
     openNewWindow()
 
 
 # this is the function called when the button is clicked
 def NinetyNodeClickFunction():
     input_file = "input90.txt"
-    GraphReader.readInputFile(input_file)
-    print('clicked')
+    GraphReader.readInputFile(input_file) 
     openNewWindow()
 
 
 # this is the function called when the button is clicked
 def HundredNodeClickFunction():
     input_file = "input100.txt"
-    GraphReader.readInputFile(input_file)
-    print('clicked')
+    GraphReader.readInputFile(input_file) 
     openNewWindow()
 
 
