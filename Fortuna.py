@@ -9,7 +9,7 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtWidgets import QFileDialog, QMessageBox, QTableWidgetItem
+from PyQt5.QtWidgets import QFileDialog, QMessageBox
 from networkx.algorithms.shortest_paths import weighted
 import GraphReader
 
@@ -133,6 +133,9 @@ class Ui_Algorithms(object):
         self.tabWidget.addTab(self.Result, "")
         self.TableView = QtWidgets.QWidget()
         self.TableView.setObjectName("TableView")
+        self.tableView = QtWidgets.QTableView(self.TableView)
+        self.tableView.setGeometry(QtCore.QRect(10, 80, 781, 451))
+        self.tableView.setObjectName("tableView")
         self.label_9 = QtWidgets.QLabel(self.TableView)
         self.label_9.setGeometry(QtCore.QRect(270, 20, 271, 41))
         self.label_9.setStyleSheet("font: italic 36pt \"Monotype Corsiva\";")
@@ -143,11 +146,6 @@ class Ui_Algorithms(object):
         self.BacktoGraph = QtWidgets.QPushButton(self.TableView)
         self.BacktoGraph.setGeometry(QtCore.QRect(674, 540, 111, 31))
         self.BacktoGraph.setObjectName("BacktoGraph")
-        self.tableWidget = QtWidgets.QTableWidget(self.TableView)
-        self.tableWidget.setGeometry(QtCore.QRect(10, 80, 781, 451))
-        self.tableWidget.setObjectName("tableWidget")
-        self.tableWidget.setColumnCount(0)
-        self.tableWidget.setRowCount(0)
         self.tabWidget.addTab(self.TableView, "")
         Algorithms.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(Algorithms)
@@ -223,9 +221,6 @@ class Ui_Algorithms(object):
         self.tabWidget.setCurrentIndex(0)
         self.filename.setText("")    
 
-    def Backtoalgo(self):
-        self.tabWidget.setCurrentIndex(1)
-
     def MovetoAfterBeforeVariableChange(self, value):
         global algochecker
         algochecker = value
@@ -289,33 +284,7 @@ class Ui_Algorithms(object):
 
     def doFloyyd(self):
         result = GraphReader.FloydWarshallAlgo()
-        self.MovetoAfterBeforeVariableChange(5)
-        self.tableWidget.setColumnCount(len(result[0]))
-        self.tableWidget.setRowCount(len(result))
-
-        for row in range(len(result)):
-            for column in range(len(result[0])):
-                self.tableWidget.setItem(row, column, QTableWidgetItem((str(round(result[row][column], 3)))))
-
-        self.Resultimage.setPixmap(QtGui.QPixmap("FloydWarshall_Before.png"))
-        self.Resultimage.setScaledContents(True)
-        self.Resultimage_2.setPixmap(QtGui.QPixmap("FloydWarshall_After.png"))
-        self.Resultimage_2.setScaledContents(True)
-        self.label_7.setText("Floyd Warshall (Before)")
-        self.label_7.setText("Floyd Warshall (After)")
-        self.tabWidget.setCurrentIndex(2)
-        self.ConvertAfterBefore.hide()
-        self.ShowTable.show()
-
-    def doClustering(self):
-        result = GraphReader.ClusteringCoefficientAlgo()
-        
-
-    def showtablefunc(self):
-        self.tabWidget.setCurrentIndex(3)
-
-    def backtographfunc(self):
-        self.tabWidget.setCurrentIndex(2)
+        # self.tableView.
 
 if __name__ == "__main__":
     import sys
@@ -330,11 +299,9 @@ if __name__ == "__main__":
     ui.MovetoAlgo.clicked.connect(ui.MovetoAlgoPage)
     ui.BacktoMainPage.clicked.connect(ui.BacktoFortuna)
     ui.ConvertAfterBefore.clicked.connect(ui.MovetoAfterBeforeGraph)
-    ui.ResultstoAlgo.clicked.connect(ui.Backtoalgo)
-    ui.BacktoGraph.clicked.connect(ui.backtographfunc)
-    ui.ShowTable.clicked.connect(ui.showtablefunc)
+    ui.ResultstoAlgo.clicked.connect(ui.MovetoAlgoPage)
     ui.Prims.clicked.connect(ui.doPrims)
     ui.Kruskal.clicked.connect(ui.doKruskals)
-    ui.Warshall.clicked.connect(ui.doFloyyd)
+
 
     sys.exit(app.exec_())
