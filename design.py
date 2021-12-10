@@ -214,7 +214,7 @@ class Ui_Algorithms(object):
         if name != '':
             GraphReader.readInputFile(name)
             self.DirNode.setText("Total Nodes in Directed Graph : " + str(GraphReader.di_verts))
-            self.DirNode_2.setText("Total Nodes in UnDirected Graph : " + str(GraphReader.di_verts))
+            self.DirNode_2.setText("Total Nodes in UnDirected Graph : " + str(GraphReader.verts))
             self.tabWidget.setCurrentIndex(1)
         else:
             QMessageBox.about(None, "No Path Selected", "Please Select a valid location")
@@ -289,7 +289,6 @@ class Ui_Algorithms(object):
 
     def doFloyyd(self):
         result = GraphReader.FloydWarshallAlgo()
-        self.MovetoAfterBeforeVariableChange(5)
         self.tableWidget.setColumnCount(len(result[0]))
         self.tableWidget.setRowCount(len(result))
 
@@ -302,14 +301,31 @@ class Ui_Algorithms(object):
         self.Resultimage_2.setPixmap(QtGui.QPixmap("FloydWarshall_After.png"))
         self.Resultimage_2.setScaledContents(True)
         self.label_7.setText("Floyd Warshall (Before)")
-        self.label_7.setText("Floyd Warshall (After)")
+        self.label_8.setText("Floyd Warshall (After)")
         self.tabWidget.setCurrentIndex(2)
         self.ConvertAfterBefore.hide()
         self.ShowTable.show()
+        self.TableName.setText("Floyd Warshall Values")
 
     def doClustering(self):
         result = GraphReader.ClusteringCoefficientAlgo()
-        
+        self.tableWidget.setColumnCount(1)
+        self.tableWidget.setRowCount(GraphReader.verts)
+
+        for row in range(GraphReader.verts):
+            self.tableWidget.setItem(row, 0, QTableWidgetItem(str(round(result[row], 3))))
+
+        self.Resultimage.setPixmap(QtGui.QPixmap("Graph.png"))
+        self.Resultimage.setScaledContents(True)
+        self.Resultimage_2.setPixmap(QtGui.QPixmap("ClusteringCoefficient.png"))
+        self.Resultimage_2.setScaledContents(True)
+        self.label_7.setText("Original Graph (no Weights)")
+        self.label_8.setText("Local Clustering Co-efficients")
+        self.tabWidget.setCurrentIndex(2)
+        self.ConvertAfterBefore.hide()
+        self.ShowTable.show()
+        self.TableName.setText("Clustering Co-efficients")
+
 
     def showtablefunc(self):
         self.tabWidget.setCurrentIndex(3)
@@ -336,5 +352,6 @@ if __name__ == "__main__":
     ui.Prims.clicked.connect(ui.doPrims)
     ui.Kruskal.clicked.connect(ui.doKruskals)
     ui.Warshall.clicked.connect(ui.doFloyyd)
+    ui.Cluster.clicked.connect(ui.doClustering)
 
     sys.exit(app.exec_())
