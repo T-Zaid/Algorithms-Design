@@ -4,6 +4,7 @@ from PIL import Image
 import sys
 
 from networkx.algorithms.cluster import average_clustering
+from networkx.classes.graph import Graph
 
 class FloydWarshall():
     def __init__(self, Vertices, graph):
@@ -361,7 +362,79 @@ def DijkstraAlgo():
     pass
 
 def BellmanFordAlgo():
-    pass
+    dist = [float('Inf')]*di_verts
+    dist[starting] = 0
+    BellmanFordGraph = nx.DiGraph()
+    BellmanFordPositions = nx.get_node_attributes(DG, "pos")
+    
+    cost_Mat = [[float('Inf') for x in range(verts)] for y in range(verts)]
+    
+    for i in range(di_verts):
+        # bf_x, bf_y = BellmanFordPositions[i]
+        BellmanFordGraph.add_node(i, pos = BellmanFordPositions[i])
+        for j in range(di_verts):
+            if digraphMat[i][j] != 0:
+                cost_Mat[i][j] = digraphMat[i][j]/10000000
+
+    ShortestLastNodeDist_v = 0
+    ShortestLastNodeDist_u = 0
+    for some in range(di_verts-1):
+        for u in range(di_verts):
+            for v in range(di_verts):
+                if cost_Mat[u][v] != float('Inf'):
+                    if dist[u] != float('Inf') and dist[u] + cost_Mat[u][v] < dist[v]:
+                        # BellmanFordGraph.add_edge(u, v, weight = cost_Mat[u][v])
+                        dist[v] = dist[u] + cost_Mat[u][v]
+                        ShortestLastNodeDist_v = v
+                        ShortestLastNodeDist_u = u
+            
+        BellmanFordGraph.add_edge(ShortestLastNodeDist_u, ShortestLastNodeDist_v, weight = cost_Mat[ShortestLastNodeDist_u][ShortestLastNodeDist_v])
+
+    for u in range(di_verts):
+        for v in range(di_verts):
+            if dist[u] != float('Inf') and dist[u] + cost_Mat[u][v] < dist[v]:
+                print("Graph contains cycle bitch")
+                return
+
+    for i in range(di_verts):
+            print("{0}\t\t{1}".format(i, dist[i]))
+
+    nx.draw(BellmanFordGraph, BellmanFordPositions, with_labels=True)
+    plt.savefig("BellmanFordGraph.png")
+    labels = nx.get_edge_attributes(BellmanFordGraph,'weight')
+    nx.draw_networkx_edge_labels(BellmanFordGraph,BellmanFordPositions,edge_labels=labels)
+    plt.savefig("BellmanFordGraph_with_Weights.png")
+    plt.close()
+
+# def BellmanFordAlgo():
+#     dist = [float('Inf')]*verts
+#     dist[starting] = 0
+#     BellmanFordGraph = nx.DiGraph()
+#     BellmanFordPositions = nx.get_node_attributes()
+    
+#     cost_Mat = [[float('Inf') for x in range(verts)] for y in range(verts)]
+#     for i in range(verts):
+#         for j in range(verts):
+#             if graphMat[i][j] != 0:
+#                 cost_Mat[i][j] = graphMat[i][j]/10000000
+#                 BellmanFordGraph.add_node(i, j, weight = cost_Mat[i][j])
+
+#     for some in range(verts-1):
+#         for u in range(verts):
+#             for v in range(verts):
+#                 if cost_Mat[u][v] != float('Inf'):
+#                     if dist[u] != float('Inf') and dist[u] + cost_Mat[u][v] < dist[v]:
+
+#                         dist[v] = dist[u] + cost_Mat[u][v]
+
+#     for u in range(verts):
+#         for v in range( verts):
+#             if dist[u] != float('Inf') and dist[u] + cost_Mat[u][v] < dist[v]:
+#                 print("Graph contains cycle bitch")
+#                 return
+
+#     for i in range(di_verts):
+#             print("{0}\t\t{1}".format(i, dist[i]))
 
 def FloydWarshallAlgo():
     cost_Mat = [[float('inf') for x in range(verts)] for y in range(verts)]
@@ -434,3 +507,6 @@ def ClusteringCoefficientAlgo():
 
 def BoruvkaAlgo():
     pass
+
+readInputFile("Input10.txt")
+BellmanFordAlgo()
