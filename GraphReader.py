@@ -505,8 +505,89 @@ def ClusteringCoefficientAlgo():
 
     return local_cluster
 
+def find(parent, i):
+    if parent[i] == i:
+        return i
+    return find(parent, parent[i])
+
+def union(parent, rank, x, y):
+    xroot = find(parent, x)
+    yroot = find(parent, y)
+    
+    if rank[xroot] < rank[yroot]:
+        parent[xroot] = yroot
+    elif rank[xroot] > rank[yroot]:
+        parent[yroot] = xroot
+    else :
+        parent[yroot] = xroot
+        rank[xroot] += 1
+
 def BoruvkaAlgo():
-    pass
+    adjlist = []
+    parent = []
+    rank = []
+    cheapest = []
+    BoruvkaTotalWeight = 0
+    numTree = verts
+    BoruvkaGraph = nx.Graph()
+    BoruvkaPositions = nx.get_node_attributes(G, "pos")
+
+    for i in range(verts):
+        for j in range(verts):
+            if graphMat[i][j] != 0:
+                adjlist.append([i, j, graphMat[i][j]/10000000])
+
+    for vertex in range(verts):
+        parent.append(vertex)
+        rank.append(0)
+        cheapest = [-1] * verts
+        BoruvkaGraph.add_node(vertex, pos = BoruvkaPositions[vertex])
+
+    while numTree > 1:
+        for i in range(len(adjlist)):
+            u, v, w = adjlist[i]
+            set1 = find(parent, u)
+            set2 = find(parent, v)
+
+            if set1 != set2:
+                if cheapest[set1] == -1 or cheapest[set1][2] > w :
+                    cheapest[set1] = [u,v,w] 
+  
+                if cheapest[set2] == -1 or cheapest[set2][2] > w :
+                    cheapest[set2] = [u,v,w]
+
+        for node in range(verts):
+            #Check if cheapest for current set exists
+            if cheapest[node] != -1:
+                u,v,w = cheapest[node]
+                set1 = find(parent, u)
+                set2 = find(parent ,v)
+  
+                if set1 != set2 :
+                    BoruvkaTotalWeight += w
+                    union(parent, rank, set1, set2)
+                    # print ("Edge %d-%d with weight %d included in MST" % (u,v,w))
+                    BoruvkaGraph.add_edge(u, v, weight = w)
+                    numTree = numTree - 1
+
+        cheapest = [-1] * verts
+    
+    min_x = min_y = float('inf')
+    for i in range(BoruvkaGraph.number_of_nodes()):
+        x, y = BoruvkaPositions[i]
+        if x < min_x:
+            min_x = x
+        if y < min_y:
+            min_y = y
+    
+    nx.draw(BoruvkaGraph, BoruvkaPositions, with_labels=True)
+    plt.text(min_x, min_y-0.012, 'MST = ' + str(round(BoruvkaTotalWeight, 2)), fontsize = 22, horizontalalignment = "left", verticalalignment = "top")
+    plt.savefig("BoruvkaGraph.png")
+    labels = nx.get_edge_attributes(BoruvkaGraph, 'weight')
+    nx.draw_networkx_edge_labels(BoruvkaGraph, BoruvkaPositions, edge_labels=labels)
+    plt.savefig("BoruvkaGraph_with_Weights.png")
+    plt.close()
 
 readInputFile("Input10.txt")
-BellmanFordAlgo()
+# BellmanFordAlgo()
+BoruvkaAlgo()
