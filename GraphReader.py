@@ -470,8 +470,8 @@ def BellmanFordAlgo():
                 print("Graph contains cycle.")
                 return
 
-    for i in range(di_verts):
-            print("{0}\t\t{1}".format(i, dist[i]))
+    # for i in range(di_verts):
+    #         print("{0}\t\t{1}".format(i, dist[i]))
 
     nx.draw(BellmanFordGraph, BellmanFordPositions, with_labels=True)
     plt.savefig("BellmanFordGraph.png")
@@ -662,7 +662,7 @@ def BoruvkaAlgo():
     plt.savefig("BoruvkaGraph_with_Weights.png")
     plt.close()
 
-readInputFile("Input10.txt")
-BellmanFordAlgo()
+# readInputFile("Input10.txt")
+# BellmanFordAlgo()
 # DijkstraAlgo()
 # BoruvkaAlgo()

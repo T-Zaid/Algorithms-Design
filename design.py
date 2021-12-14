@@ -225,6 +225,12 @@ class Ui_Algorithms(object):
 
     def Backtoalgo(self):
         self.tabWidget.setCurrentIndex(1)
+        if algochecker == 3:
+            self.Resultimage_2.show()
+            self.label_8.show()
+            self.label_7.setGeometry(60, 410, 211, 41)
+            self.Resultimage.setGeometry(20, 130, 320, 240)
+
 
     def MovetoAfterBeforeVariableChange(self, value):
         global algochecker
@@ -232,40 +238,94 @@ class Ui_Algorithms(object):
 
     def MovetoAfterBeforeGraph(self):
         if algochecker == 1:
-                if self.ConvertAfterBefore.text() == "Show Before":
-                        self.ConvertAfterBefore.setText("Show After")
-                        self.label_7.setText("Original Graph (No Weights)")
-                        self.label_8.setText("Original Graph (with Weights)")
-                        self.Resultimage.setPixmap(QtGui.QPixmap("Graph.png"))
-                        self.Resultimage.setScaledContents(True)
-                        self.Resultimage_2.setPixmap(QtGui.QPixmap("Graph_with_Weights.png"))
-                        self.Resultimage_2.setScaledContents(True)
-                else:
-                        self.ConvertAfterBefore.setText("Show Before")
-                        self.label_7.setText("Resulted Graph (No Weights)")
-                        self.label_8.setText("Resulted Graph (with Weights)")
-                        self.Resultimage.setPixmap(QtGui.QPixmap("PrimMST.png"))
-                        self.Resultimage.setScaledContents(True)
-                        self.Resultimage_2.setPixmap(QtGui.QPixmap("PrimMST_with_Weights.png"))
-                        self.Resultimage_2.setScaledContents(True)
+            if self.ConvertAfterBefore.text() == "Show Before":
+                self.ConvertAfterBefore.setText("Show After")
+                self.label_7.setText("Original Graph (No Weights)")
+                self.label_8.setText("Original Graph (with Weights)")
+                self.Resultimage.setPixmap(QtGui.QPixmap("Graph.png"))
+                self.Resultimage.setScaledContents(True)
+                self.Resultimage_2.setPixmap(QtGui.QPixmap("Graph_with_Weights.png"))
+                self.Resultimage_2.setScaledContents(True)
+            else:
+                self.ConvertAfterBefore.setText("Show Before")
+                self.label_7.setText("Resulted Graph (No Weights)")
+                self.label_8.setText("Resulted Graph (with Weights)")
+                self.Resultimage.setPixmap(QtGui.QPixmap("PrimMST.png"))
+                self.Resultimage.setScaledContents(True)
+                self.Resultimage_2.setPixmap(QtGui.QPixmap("PrimMST_with_Weights.png"))
+                self.Resultimage_2.setScaledContents(True)
         
         elif algochecker == 2:
-                if self.ConvertAfterBefore.text() == "Show Before":
-                        self.ConvertAfterBefore.setText("Show After")
-                        self.label_7.setText("Original Graph (No Weights)")
-                        self.label_8.setText("Original Graph (with Weights)")
-                        self.Resultimage.setPixmap(QtGui.QPixmap("Graph.png"))
-                        self.Resultimage.setScaledContents(True)
-                        self.Resultimage_2.setPixmap(QtGui.QPixmap("Graph_with_Weights.png"))
-                        self.Resultimage_2.setScaledContents(True)
-                else:
-                        self.ConvertAfterBefore.setText("Show Before")
-                        self.label_7.setText("Resulted Graph (No Weights)")
-                        self.label_8.setText("Resulted Graph (with Weights)")
-                        self.Resultimage.setPixmap(QtGui.QPixmap("KruskalMST.png"))
-                        self.Resultimage.setScaledContents(True)
-                        self.Resultimage_2.setPixmap(QtGui.QPixmap("KruskalMST_with_Weights.png"))
-                        self.Resultimage_2.setScaledContents(True)
+            if self.ConvertAfterBefore.text() == "Show Before":
+                self.ConvertAfterBefore.setText("Show After")
+                self.label_7.setText("Original Graph (No Weights)")
+                self.label_8.setText("Original Graph (with Weights)")
+                self.Resultimage.setPixmap(QtGui.QPixmap("Graph.png"))
+                self.Resultimage.setScaledContents(True)
+                self.Resultimage_2.setPixmap(QtGui.QPixmap("Graph_with_Weights.png"))
+                self.Resultimage_2.setScaledContents(True)
+            else:
+                self.ConvertAfterBefore.setText("Show Before")
+                self.label_7.setText("Resulted Graph (No Weights)")
+                self.label_8.setText("Resulted Graph (with Weights)")
+                self.Resultimage.setPixmap(QtGui.QPixmap("KruskalMST.png"))
+                self.Resultimage.setScaledContents(True)
+                self.Resultimage_2.setPixmap(QtGui.QPixmap("KruskalMST_with_Weights.png"))
+                self.Resultimage_2.setScaledContents(True)
+
+        elif algochecker == 3:
+            if self.ConvertAfterBefore.text() == "Show Before":
+                self.ConvertAfterBefore.setText("Show After")
+                self.label_7.setText("Original Graph (No Weights)")
+                # self.label_8.setText("Original Graph (with Weights)")
+                self.Resultimage.setPixmap(QtGui.QPixmap("DiGraph.png"))
+                self.Resultimage.setScaledContents(True)
+                # self.Resultimage_2.setPixmap(QtGui.QPixmap("DiGraph_with_Weights.png"))
+                # self.Resultimage_2.setScaledContents(True)
+            else:
+                self.ConvertAfterBefore.setText("Show Before")
+                self.label_7.setText("Resulted Graph (No Weights)")
+                # self.label_8.setText("Resulted Graph (with Weights)")
+                self.Resultimage.setPixmap(QtGui.QPixmap("DijkstraGraph.png"))
+                self.Resultimage.setScaledContents(True)
+                # self.Resultimage_2.setPixmap(QtGui.QPixmap("BellmanFordGraph_with_Weights.png"))
+                # self.Resultimage_2.setScaledContents(True)            
+
+        elif algochecker == 4:
+            if self.ConvertAfterBefore.text() == "Show Before":
+                self.ConvertAfterBefore.setText("Show After")
+                self.label_7.setText("Original Graph (No Weights)")
+                self.label_8.setText("Original Graph (with Weights)")
+                self.Resultimage.setPixmap(QtGui.QPixmap("DiGraph.png"))
+                self.Resultimage.setScaledContents(True)
+                self.Resultimage_2.setPixmap(QtGui.QPixmap("DiGraph_with_Weights.png"))
+                self.Resultimage_2.setScaledContents(True)
+            else:
+                self.ConvertAfterBefore.setText("Show Before")
+                self.label_7.setText("Resulted Graph (No Weights)")
+                self.label_8.setText("Resulted Graph (with Weights)")
+                self.Resultimage.setPixmap(QtGui.QPixmap("BellmanFordGraph.png"))
+                self.Resultimage.setScaledContents(True)
+                self.Resultimage_2.setPixmap(QtGui.QPixmap("BellmanFordGraph_with_Weights.png"))
+                self.Resultimage_2.setScaledContents(True)
+
+        elif algochecker == 7:
+            if self.ConvertAfterBefore.text() == "Show Before":
+                self.ConvertAfterBefore.setText("Show After")
+                self.label_7.setText("Original Graph (No Weights)")
+                self.label_8.setText("Original Graph (with Weights)")
+                self.Resultimage.setPixmap(QtGui.QPixmap("Graph.png"))
+                self.Resultimage.setScaledContents(True)
+                self.Resultimage_2.setPixmap(QtGui.QPixmap("Graph_with_Weights.png"))
+                self.Resultimage_2.setScaledContents(True)
+            else:
+                self.ConvertAfterBefore.setText("Show Before")
+                self.label_7.setText("Resulted Graph (No Weights)")
+                self.label_8.setText("Resulted Graph (with Weights)")
+                self.Resultimage.setPixmap(QtGui.QPixmap("BoruvkaGraph.png"))
+                self.Resultimage.setScaledContents(True)
+                self.Resultimage_2.setPixmap(QtGui.QPixmap("BoruvkaGraph_with_Weights.png"))
+                self.Resultimage_2.setScaledContents(True)
 
     def doPrims(self):
         weight = GraphReader.PrimAlgo()
@@ -275,6 +335,7 @@ class Ui_Algorithms(object):
         self.Resultimage.setScaledContents(True)
         self.Resultimage_2.setPixmap(QtGui.QPixmap("PrimMST_with_Weights.png"))
         self.Resultimage_2.setScaledContents(True)
+        self.ConvertAfterBefore.show()
         self.ShowTable.hide()
 
     def doKruskals(self):
@@ -285,6 +346,7 @@ class Ui_Algorithms(object):
         self.Resultimage.setScaledContents(True)
         self.Resultimage_2.setPixmap(QtGui.QPixmap("KruskalMST_with_Weights.png"))
         self.Resultimage_2.setScaledContents(True)
+        self.ConvertAfterBefore.show()
         self.ShowTable.hide()
 
     def doFloyyd(self):
@@ -326,6 +388,42 @@ class Ui_Algorithms(object):
         self.ShowTable.show()
         self.TableName.setText("Clustering Co-efficients")
 
+    def doDijkstra(self):
+        GraphReader.DijkstraAlgo()
+        self.MovetoAfterBeforeVariableChange(3)
+        self.tabWidget.setCurrentIndex(2)
+        self.Resultimage.setPixmap(QtGui.QPixmap("DijkstraGraph.png"))
+        self.Resultimage.setScaledContents(True)
+        # self.Resultimage_2.setPixmap(QtGui.QPixmap("BellmanFordGraph_with_Weights.png"))
+        # self.Resultimage_2.setScaledContents(True)
+        self.Resultimage_2.hide()
+        self.label_8.hide()
+        self.label_7.setGeometry(240, 410, 211, 41)
+        self.Resultimage.setGeometry(240, 130, 320, 240)
+        self.ConvertAfterBefore.show()
+        self.ShowTable.hide()
+
+    def doBellman(self):
+        GraphReader.BellmanFordAlgo()
+        self.MovetoAfterBeforeVariableChange(4)
+        self.tabWidget.setCurrentIndex(2)
+        self.Resultimage.setPixmap(QtGui.QPixmap("BellmanFordGraph.png"))
+        self.Resultimage.setScaledContents(True)
+        self.Resultimage_2.setPixmap(QtGui.QPixmap("BellmanFordGraph_with_Weights.png"))
+        self.Resultimage_2.setScaledContents(True)
+        self.ConvertAfterBefore.show()
+        self.ShowTable.hide()
+
+    def doBoruvka(self):
+        GraphReader.BoruvkaAlgo()
+        self.MovetoAfterBeforeVariableChange(7)
+        self.tabWidget.setCurrentIndex(2)
+        self.Resultimage.setPixmap(QtGui.QPixmap("BoruvkaGraph.png"))
+        self.Resultimage.setScaledContents(True)
+        self.Resultimage_2.setPixmap(QtGui.QPixmap("BoruvkaGraph_with_Weights.png"))
+        self.Resultimage_2.setScaledContents(True)
+        self.ConvertAfterBefore.show()
+        self.ShowTable.hide()
 
     def showtablefunc(self):
         self.tabWidget.setCurrentIndex(3)
@@ -351,7 +449,10 @@ if __name__ == "__main__":
     ui.ShowTable.clicked.connect(ui.showtablefunc)
     ui.Prims.clicked.connect(ui.doPrims)
     ui.Kruskal.clicked.connect(ui.doKruskals)
+    ui.Dijkstra.clicked.connect(ui.doDijkstra)
     ui.Warshall.clicked.connect(ui.doFloyyd)
     ui.Cluster.clicked.connect(ui.doClustering)
+    ui.Bellman.clicked.connect(ui.doBellman)
+    ui.Boruvka.clicked.connect(ui.doBoruvka)
 
     sys.exit(app.exec_())
