@@ -6,6 +6,83 @@ import sys
 from networkx.algorithms.cluster import average_clustering
 from networkx.classes.graph import Graph
 
+from collections import defaultdict
+ 
+class DijkstraGraph:
+    def __init__(self):
+        self.printArr = list()
+
+    def minDistance(self,dist,queue):
+        minimum = float("Inf")
+        min_index = -1
+         
+        for i in range(len(dist)):
+            if dist[i] < minimum and i in queue:
+                minimum = dist[i]
+                min_index = i
+        return min_index
+ 
+    def printPath(self, parent, j):
+         
+        if parent[j] == -1 :
+            self.printArr.append(j)
+            # print(j)
+            return
+        self.printPath(parent , parent[j])
+        self.printArr.append(j)
+        # print(j)
+         
+    def printSolution(self, dist, parent):
+        dijkstraNXG = nx.DiGraph()
+        temp_pos = nx.get_node_attributes(DG, 'pos')
+        for i in range(verts):
+            dijkstraNXG.add_node(i, pos = temp_pos)
+
+        src = starting
+        # print("Vertex \t\tDistance from Source\tPath")
+        for i in range(0, len(dist)):
+            if i != src:
+                # print("\n%d --> %d \t\t%f \t\t\t\t\t" % (src, i, dist[i]/10000000)),
+                self.printArr = list()
+                self.printPath(parent,i)
+
+                # self.printArr.reverse()
+                for j in range(1, len(self.printArr)):
+                    if not dijkstraNXG.has_edge(self.printArr[j-1], self.printArr[j]):
+                        dijkstraNXG.add_edge(self.printArr[j-1], self.printArr[j], weight = digraphMat[ self.printArr[j-1] ][ self.printArr[j] ]/10000000)
+
+        nx.draw(dijkstraNXG, temp_pos, with_labels=True)
+        plt.savefig("DijkstraGraph.png")
+        plt.close()
+
+    def dijkstra(self, graph, src):
+ 
+        row = len(graph)
+        col = len(graph[0])
+
+        dist = [float("Inf")] * row
+
+        parent = [-1] * row
+
+        dist[src] = 0
+     
+        queue = []
+        for i in range(row):
+            queue.append(i)
+             
+        while queue:
+
+            u = self.minDistance(dist,queue)
+            queue.remove(u)
+
+            for i in range(col):
+                if graph[u][i] and i in queue:
+                    if dist[u] + graph[u][i] < dist[i]:
+                        dist[i] = dist[u] + graph[u][i]
+                        parent[i] = u
+ 
+        self.printSolution(dist,parent)
+
 class FloydWarshall():
     def __init__(self, Vertices, graph):
         self.V = Vertices
@@ -359,7 +436,8 @@ def KruskalAlgo():
     return kruskalG.getTotalWeight()
 
 def DijkstraAlgo():
-    pass
+    dijkstraG = DijkstraGraph()
+    dijkstraG.dijkstra(digraphMat, starting)
 
 def BellmanFordAlgo():
     dist = [float('Inf')]*di_verts
@@ -376,24 +454,20 @@ def BellmanFordAlgo():
             if digraphMat[i][j] != 0:
                 cost_Mat[i][j] = digraphMat[i][j]/10000000
 
-    ShortestLastNodeDist_v = 0
-    ShortestLastNodeDist_u = 0
     for some in range(di_verts-1):
         for u in range(di_verts):
             for v in range(di_verts):
                 if cost_Mat[u][v] != float('Inf'):
                     if dist[u] != float('Inf') and dist[u] + cost_Mat[u][v] < dist[v]:
-                        # BellmanFordGraph.add_edge(u, v, weight = cost_Mat[u][v])
+                        BellmanFordGraph.add_edge(u, v, weight = cost_Mat[u][v])
                         dist[v] = dist[u] + cost_Mat[u][v]
-                        ShortestLastNodeDist_v = v
-                        ShortestLastNodeDist_u = u
-            
-        BellmanFordGraph.add_edge(ShortestLastNodeDist_u, ShortestLastNodeDist_v, weight = cost_Mat[ShortestLastNodeDist_u][ShortestLastNodeDist_v])
+                        
+    
 
     for u in range(di_verts):
         for v in range(di_verts):
             if dist[u] != float('Inf') and dist[u] + cost_Mat[u][v] < dist[v]:
-                print("Graph contains cycle bitch")
+                print("Graph contains cycle.")
                 return
 
     for i in range(di_verts):
@@ -589,5 +663,6 @@ def BoruvkaAlgo():
     plt.close()
 
 readInputFile("Input10.txt")
-# BellmanFordAlgo()
-BoruvkaAlgo()
+BellmanFordAlgo()
+# DijkstraAlgo()
+# BoruvkaAlgo()
