@@ -351,6 +351,7 @@ class Ui_Algorithms(object):
 
     def doFloyyd(self):
         result = GraphReader.FloydWarshallAlgo()
+        self.MovetoAfterBeforeVariableChange(5)
         self.tableWidget.setColumnCount(len(result[0]))
         self.tableWidget.setRowCount(len(result))
 
@@ -371,6 +372,7 @@ class Ui_Algorithms(object):
 
     def doClustering(self):
         result = GraphReader.ClusteringCoefficientAlgo()
+        self.MovetoAfterBeforeVariableChange(6)
         self.tableWidget.setColumnCount(1)
         self.tableWidget.setRowCount(GraphReader.verts)
 
