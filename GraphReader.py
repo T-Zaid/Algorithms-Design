@@ -53,6 +53,9 @@ class DijkstraGraph:
 
         nx.draw(dijkstraNXG, temp_pos, with_labels=True)
         plt.savefig("DijkstraGraph.png")
+        labels = nx.get_edge_attributes(dijkstraNXG,'weight')
+        nx.draw_networkx_edge_labels(dijkstraNXG,temp_pos,edge_labels=labels)
+        plt.savefig("DijkstraGraph_with_Weights.png")
         plt.close()
 
     def dijkstra(self, graph, src):
